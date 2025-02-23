@@ -12,28 +12,28 @@ public class ProductCategoryController {
         return null;
     }
 
-    @GetMapping
-    public ProductCategoryDto getProductCategoryById(Long id) {
+    @GetMapping("/{id}")
+    public ProductCategoryDto getProductCategoryById(@PathVariable Long id) {
         return null;
     }
 
     @PostMapping
-    public ProductCategoryDto saveProductCategory(ProductCategoryDto productCategoryDto) {
+    public ProductCategoryDto saveProductCategory(@RequestBody ProductCategoryDto productCategoryDto) {
         return null;
     }
 
-    @PatchMapping
-    public ProductCategoryDto updateProductCategory(Long id, ProductCategoryDto productCategoryDto) {
+    @PatchMapping("/{id}")
+    public ProductCategoryDto updateProductCategory(@PathVariable Long id, @RequestBody ProductCategoryDto productCategoryDto) {
         return null;
     }
 
-    @PutMapping
-    public ProductCategoryDto replaceProductCategory(Long id, ProductCategoryDto productCategoryDto) {
+    @PutMapping("/{id}")
+    public ProductCategoryDto replaceProductCategory(@PathVariable Long id, @RequestBody ProductCategoryDto productCategoryDto) {
         return null;
     }
 
-    @DeleteMapping
-    public boolean deleteProductCategory(Long id) {
+    @DeleteMapping("/{id}")
+    public boolean deleteProductCategory(@PathVariable Long id) {
         return false;
     }
 }
