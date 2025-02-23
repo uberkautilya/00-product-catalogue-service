@@ -2,13 +2,20 @@ package com.uberkautilya.productcatalogueservice.controllers;
 
 import com.uberkautilya.productcatalogueservice.dtos.ProductDto;
 import com.uberkautilya.productcatalogueservice.models.Product;
+import com.uberkautilya.productcatalogueservice.services.IProductService;
 import com.uberkautilya.productcatalogueservice.utils.MapperUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(value = "/products")
+@RestController()
+@RequestMapping("/products")
 public class ProductController {
+    private final IProductService productService;
+
+    public ProductController(IProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping
     public ProductDto saveProductDetails(@RequestBody ProductDto productDto) {
@@ -18,8 +25,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto getProductDetails(@PathVariable Long id) {
-        ProductDto productDto = MapperUtils.mapToProductDto((Product) null);
-        return productDto;
+        Product productById = productService.getProductById(id);
+        return MapperUtils.mapToProductDto(productById);
     }
 
     @GetMapping

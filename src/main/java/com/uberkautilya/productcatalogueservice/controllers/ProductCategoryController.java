@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(value = "/product-categories")
+@RestController()
+@RequestMapping("/product-categories")
 public class ProductCategoryController {
     @GetMapping
     public List<ProductCategoryDto> getAllProductCategories() {

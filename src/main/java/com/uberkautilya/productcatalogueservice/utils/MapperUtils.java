@@ -16,6 +16,9 @@ public class MapperUtils {
     }
 
     public static ProductDto mapToProductDto(Product product) {
+        if(product == null) {
+            return null;
+        }
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
         productDto.setName(product.getName());
