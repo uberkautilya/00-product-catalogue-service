@@ -31,12 +31,17 @@ public class ProductController {
 
     @GetMapping
     public List<ProductDto> getAllProductDetails() {
-        return null;
+        List<Product> productList = productService.getAllProducts();
+        return productList.stream().map(MapperUtils::mapToProductDto).toList();
     }
 
     @PutMapping("/{id}")
-    public ProductDto updateProductDetails(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        return productDto;
+    public ProductDto replaceProductDetails(@PathVariable Long id, @RequestBody ProductDto productDto) {
+        Product product = productService.replaceProductDetails(id, productDto);
+        if(product == null) {
+            return null;
+        }
+        return MapperUtils.mapToProductDto(product);
     }
 
     @PatchMapping("/{id}")
