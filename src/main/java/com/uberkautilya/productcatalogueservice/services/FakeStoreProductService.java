@@ -99,16 +99,16 @@ public class FakeStoreProductService implements IProductService {
     }
 
     @Override
-    public Product deleteProductDetails(Long id) {
+    public Boolean deleteProductDetails(Long id) {
         RestTemplate restTemplate = restTemplateBuilder.build();
         String url = "https://fakestoreapi.com/products/{id}";
         Product productById = getProductById(id);
         if (productById == null) {
-            return null;
+            return false;
         }
 
         restTemplate.delete(url, id);
-        return productById;
+        return true;
     }
 
     /**

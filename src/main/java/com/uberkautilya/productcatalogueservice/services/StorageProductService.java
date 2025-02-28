@@ -25,27 +25,32 @@ public class StorageProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        Optional<Product> byId = productRepository.findById(id);
-        return byId.orElse(null);
+        Optional<Product> productByIdOptional = productRepository.findById(id);
+        return productByIdOptional.orElse(null);
     }
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return productRepository.findAll();
     }
 
     @Override
     public Product replaceProductDetails(Long id, Product product) {
-        return null;
+        return productRepository.save(product);
     }
 
     @Override
     public Product updateProductDetails(Long id, Product product) {
-        return null;
+        return productRepository.save(product);
     }
 
     @Override
-    public Product deleteProductDetails(Long id) {
-        return null;
+    public Boolean deleteProductDetails(Long id) {
+        Optional<Product> productById = productRepository.findById(id);
+        if (productById.isEmpty()) {
+            return false;
+        }
+        productRepository.deleteById(id);
+        return true;
     }
 }

@@ -63,8 +63,8 @@ public class ProductController {
     public ResponseEntity<Object> deleteProductDetails(@PathVariable Long id) {
 
         //For a resource that exists, 204 is returned, while for subsequent attempts 404 is returned
-        Product product = productService.deleteProductDetails(id);
-        if (product == null) {
+        Boolean isDeleteSuccessful = productService.deleteProductDetails(id);
+        if (!isDeleteSuccessful) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
