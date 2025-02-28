@@ -1,6 +1,5 @@
 package com.uberkautilya.productcatalogueservice.services;
 
-import com.uberkautilya.productcatalogueservice.dtos.ProductDto;
 import com.uberkautilya.productcatalogueservice.models.Product;
 
 import java.util.List;

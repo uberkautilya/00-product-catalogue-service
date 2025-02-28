@@ -20,8 +20,9 @@ public class ProductController {
 
     @PostMapping
     public ProductDto saveProductDetails(@RequestBody ProductDto productDto) {
-        MapperUtils.mapToProduct(productDto);
-        return null;
+        Product product = MapperUtils.mapToProduct(productDto);
+        Product savedProduct = productService.createProduct(product);
+        return MapperUtils.mapToProductDto(savedProduct);
     }
 
     @GetMapping("/{id}")
@@ -43,7 +44,7 @@ public class ProductController {
     public ProductDto replaceProductDetails(@PathVariable Long id, @RequestBody ProductDto productDto) {
         Product requestProduct = MapperUtils.mapToProduct(productDto);
         Product product = productService.replaceProductDetails(id, requestProduct);
-        if(product == null) {
+        if (product == null) {
             return null;
         }
         return MapperUtils.mapToProductDto(product);

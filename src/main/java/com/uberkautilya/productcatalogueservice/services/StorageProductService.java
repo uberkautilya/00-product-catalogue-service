@@ -1,14 +1,15 @@
 package com.uberkautilya.productcatalogueservice.services;
 
-import com.uberkautilya.productcatalogueservice.dtos.ProductDto;
 import com.uberkautilya.productcatalogueservice.models.Product;
 import com.uberkautilya.productcatalogueservice.repositories.ProductRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Primary
 public class StorageProductService implements IProductService {
     private final ProductRepository productRepository;
 
