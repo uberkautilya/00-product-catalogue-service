@@ -1,7 +1,7 @@
 package com.uberkautilya.productcatalogueservice.services;
 
 import com.uberkautilya.productcatalogueservice.dtos.FakeStoreProductDto;
-import com.uberkautilya.productcatalogueservice.dtos.ProductDto;
+import com.uberkautilya.productcatalogueservice.dtos.ProductCategoryDto;
 import com.uberkautilya.productcatalogueservice.models.Product;
 import com.uberkautilya.productcatalogueservice.models.ProductCategory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -130,9 +130,8 @@ public class FakeStoreProductService implements IProductService {
         FakeStoreProductDto dto = new FakeStoreProductDto();
 
         ProductCategory category = product.getCategory();
-        dto.setCategory(null);
         if (category != null) {
-            dto.setCategory(category.getName());
+            dto.setCategory(product.getCategory().getName());
         }
 
         dto.setPrice(product.getPrice());
@@ -141,27 +140,6 @@ public class FakeStoreProductService implements IProductService {
         dto.setTitle(product.getName());
         dto.setDescription(product.getDescription());
         dto.setId(product.getId());
-        return dto;
-    }
-
-    private FakeStoreProductDto from(ProductDto productDto) {
-        if (productDto == null) {
-            return null;
-        }
-        FakeStoreProductDto dto = new FakeStoreProductDto();
-
-        ProductCategory category = productDto.getCategoryDto();
-        dto.setCategory(null);
-        if (category != null) {
-            dto.setCategory(category.getName());
-        }
-
-        dto.setPrice(productDto.getPrice());
-        dto.setPrice(productDto.getPrice());
-        dto.setImage(productDto.getImageUrl());
-        dto.setTitle(productDto.getName());
-        dto.setDescription(productDto.getDescription());
-        dto.setId(productDto.getId());
         return dto;
     }
 

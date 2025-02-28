@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Primary
+@Primary //When only this implementation is to be active. To use both implementations simultaneously, use @Qualifier
 public class StorageProductService implements IProductService {
     private final ProductRepository productRepository;
 
