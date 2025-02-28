@@ -150,7 +150,7 @@ public class FakeStoreProductService implements IProductService {
         }
         FakeStoreProductDto dto = new FakeStoreProductDto();
 
-        ProductCategory category = productDto.getCategory();
+        ProductCategory category = productDto.getCategoryDto();
         dto.setCategory(null);
         if (category != null) {
             dto.setCategory(category.getName());

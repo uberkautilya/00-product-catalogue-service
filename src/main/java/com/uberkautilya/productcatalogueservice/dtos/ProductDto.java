@@ -1,6 +1,5 @@
 package com.uberkautilya.productcatalogueservice.dtos;
 
-import com.uberkautilya.productcatalogueservice.models.ProductCategory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,18 +9,18 @@ public class ProductDto {
     private Long id;
     private String name;
     private String description;
-    private ProductCategory category;
+    private ProductCategoryDto categoryDto;
     private String imageUrl;
     private Double price;
 
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String name, String description, ProductCategory category, String imageUrl, Double price) {
+    public ProductDto(Long id, String name, String description, ProductCategoryDto categoryDto, String imageUrl, Double price) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.categoryDto = categoryDto;
         this.imageUrl = imageUrl;
         this.price = price;
     }

@@ -1,10 +1,13 @@
 package com.uberkautilya.productcatalogueservice.models;
 
+import com.uberkautilya.productcatalogueservice.models.enums.State;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -26,4 +29,11 @@ public class Product extends BaseModel {
     private Double price;
     //Not to be exposed in Dto class
     private boolean isPrime;
+
+    public Product(){
+        setState(State.ACTIVE);
+        setCreatedAt(new Date());
+        //The same instant this object is created
+        setLastUpdatedAt(getCreatedAt());
+    }
 }
