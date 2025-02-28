@@ -4,6 +4,7 @@ import com.uberkautilya.productcatalogueservice.dtos.ProductDto;
 import com.uberkautilya.productcatalogueservice.models.Product;
 import com.uberkautilya.productcatalogueservice.services.IProductService;
 import com.uberkautilya.productcatalogueservice.utils.MapperUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,9 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto getProductDetails(@PathVariable Long id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Invalid product id");
+        }
         Product productById = productService.getProductById(id);
         return MapperUtils.mapToProductDto(productById);
     }
@@ -46,11 +50,26 @@ public class ProductController {
 
     @PatchMapping("/{id}")
     public ProductDto patchProductDetails(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        return productDto;
+        Product product = productService.updateProductDetails(id, productDto);
+        if (product == null) {
+            return null;
+        }
+        return MapperUtils.mapToProductDto(product);
     }
 
     @DeleteMapping("/{id}")
-    public boolean deleteProductDetails(@PathVariable Long id) {
-        return false;
+    public ResponseEntity<Object> deleteProductDetails(@PathVariable Long id) {
+
+        //For a resource that exists, 204 is returned, while for subsequent attempts 404 is returned
+        Product product = productService.deleteProductDetails(id);
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }

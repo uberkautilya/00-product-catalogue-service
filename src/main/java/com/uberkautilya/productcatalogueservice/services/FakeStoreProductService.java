@@ -27,6 +27,21 @@ public class FakeStoreProductService implements IProductService {
     }
 
     @Override
+    public Product createProduct(ProductDto productDto) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        String url = "https://fakestoreapi.com/products";
+
+        FakeStoreProductDto fakeStoreProductDto = from(productDto);
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.postForEntity(url, fakeStoreProductDto, FakeStoreProductDto.class);
+        if (responseEntity.getBody() != null &&
+                responseEntity.getStatusCode().equals(HttpStatusCode.valueOf(201))) {
+            FakeStoreProductDto dto = responseEntity.getBody();
+            return from(dto);
+        }
+        return null;
+    }
+
+    @Override
     public Product getProductById(Long id) {
         RestTemplate restTemplate = restTemplateBuilder.build();
         String url = "https://fakestoreapi.com/products/{id}";
@@ -58,7 +73,7 @@ public class FakeStoreProductService implements IProductService {
         RestTemplate restTemplate = restTemplateBuilder.build();
         String url = "https://fakestoreapi.com/products/{id}";
         FakeStoreProductDto fakeStoreProductDto = from(productDto);
-        ResponseEntity<FakeStoreProductDto> responseEntity = putForEntity(url, fakeStoreProductDto, FakeStoreProductDto.class, id);
+        ResponseEntity<FakeStoreProductDto> responseEntity = executeForEntity(url, fakeStoreProductDto, FakeStoreProductDto.class, HttpMethod.PUT, id);
         if (responseEntity.getStatusCode().equals(HttpStatusCode.valueOf(200)) &&
                 responseEntity.hasBody()) {
             FakeStoreProductDto dto = responseEntity.getBody();
@@ -67,13 +82,45 @@ public class FakeStoreProductService implements IProductService {
         return null;
     }
 
-    public <T> ResponseEntity<T> putForEntity(String url, @Nullable Object request,
-                                              Class<T> responseType, Object... uriVariables) throws RestClientException {
+    @Override
+    public Product updateProductDetails(Long id, ProductDto productDto) {
+        FakeStoreProductDto fakeStoreProductDto = from(productDto);
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        String url = "https://fakestoreapi.com/products/{id}";
+
+        //We go to RestTemplate, find postForEntity and adapt the exchange method call for PATCH
+        ResponseEntity<FakeStoreProductDto> responseEntity = executeForEntity(url, fakeStoreProductDto, FakeStoreProductDto.class, HttpMethod.PATCH, id);
+
+        if (responseEntity != null && HttpStatusCode.valueOf(200).equals(responseEntity.getStatusCode())) {
+            FakeStoreProductDto dto = responseEntity.getBody();
+            return from(dto);
+        }
+        return null;
+    }
+
+    @Override
+    public Product deleteProductDetails(Long id) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        String url = "https://fakestoreapi.com/products/{id}";
+        Product productById = getProductById(id);
+        if (productById == null) {
+            return null;
+        }
+
+        restTemplate.delete(url, id);
+        return productById;
+    }
+
+    /**
+     * We go to RestTemplate, find postForEntity and adapt the execute method call for PATCH
+     */
+    public <T> ResponseEntity<T> executeForEntity(String url, @Nullable Object requestObject,
+                                                  Class<T> responseType, HttpMethod httpMethod, Object... uriVariables) throws RestClientException {
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(requestObject, responseType);
         ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
-        return restTemplate.execute(url, HttpMethod.PUT, requestCallback, responseExtractor, uriVariables);
+        return restTemplate.execute(url, httpMethod, requestCallback, responseExtractor, uriVariables);
     }
 
     private FakeStoreProductDto from(ProductDto productDto) {
