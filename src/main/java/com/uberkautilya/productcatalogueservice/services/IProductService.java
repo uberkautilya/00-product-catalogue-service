@@ -6,15 +6,15 @@ import com.uberkautilya.productcatalogueservice.models.Product;
 import java.util.List;
 
 public interface IProductService {
-    Product createProduct(ProductDto productDto);
+    Product createProduct(Product product);
 
     Product getProductById(Long id);
 
     List<Product> getAllProducts();
 
-    Product replaceProductDetails(Long id, ProductDto productDto);
+    Product replaceProductDetails(Long id, Product product);
 
-    Product updateProductDetails(Long id, ProductDto productDto);
+    Product updateProductDetails(Long id, Product product);
 
     Product deleteProductDetails(Long id);
 }

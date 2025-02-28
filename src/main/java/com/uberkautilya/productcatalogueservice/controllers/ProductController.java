@@ -41,7 +41,8 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ProductDto replaceProductDetails(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        Product product = productService.replaceProductDetails(id, productDto);
+        Product requestProduct = MapperUtils.mapToProduct(productDto);
+        Product product = productService.replaceProductDetails(id, requestProduct);
         if(product == null) {
             return null;
         }
@@ -50,7 +51,8 @@ public class ProductController {
 
     @PatchMapping("/{id}")
     public ProductDto patchProductDetails(@PathVariable Long id, @RequestBody ProductDto productDto) {
-        Product product = productService.updateProductDetails(id, productDto);
+        Product requestProduct = MapperUtils.mapToProduct(productDto);
+        Product product = productService.updateProductDetails(id, requestProduct);
         if (product == null) {
             return null;
         }

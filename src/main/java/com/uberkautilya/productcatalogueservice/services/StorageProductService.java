@@ -17,8 +17,10 @@ public class StorageProductService implements IProductService {
     }
 
     @Override
-    public Product createProduct(ProductDto productDto) {
-        return null;
+    public Product createProduct(Product product) {
+        //If a product with the same Id existed earlier, then we would not have that information at the controller level
+        Optional<Product> productById = productRepository.findById(product.getId());
+        return productById.orElseGet(() -> productRepository.save(product));
     }
 
     @Override
@@ -33,12 +35,12 @@ public class StorageProductService implements IProductService {
     }
 
     @Override
-    public Product replaceProductDetails(Long id, ProductDto productDto) {
+    public Product replaceProductDetails(Long id, Product product) {
         return null;
     }
 
     @Override
-    public Product updateProductDetails(Long id, ProductDto productDto) {
+    public Product updateProductDetails(Long id, Product product) {
         return null;
     }
 
