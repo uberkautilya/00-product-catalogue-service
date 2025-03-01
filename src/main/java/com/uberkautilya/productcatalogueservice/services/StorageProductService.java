@@ -4,10 +4,12 @@ import com.uberkautilya.productcatalogueservice.models.Product;
 import com.uberkautilya.productcatalogueservice.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@Service(value = "storageProductService") //The value here is redundant, as this is the default naming for this bean anyway
+@Service(value = "storageProductService")
+//The value in the annotation is redundant, as this is the default naming for this bean anyway
 //@Primary //When only this implementation is to be active. To use both implementations simultaneously, use @Qualifier
 public class StorageProductService implements IProductService {
     private final ProductRepository productRepository;
@@ -19,6 +21,8 @@ public class StorageProductService implements IProductService {
     @Override
     public Product createProduct(Product product) {
         //If a product with the same Id existed earlier, then we would not have that information at the controller level
+        product.setCreatedAt(new Date());
+        product.setLastUpdatedAt(product.getCreatedAt());
         Optional<Product> productById = productRepository.findById(product.getId());
         return productById.orElseGet(() -> productRepository.save(product));
     }
@@ -36,11 +40,13 @@ public class StorageProductService implements IProductService {
 
     @Override
     public Product replaceProductDetails(Long id, Product product) {
+        product.setLastUpdatedAt(new Date());
         return productRepository.save(product);
     }
 
     @Override
     public Product updateProductDetails(Long id, Product product) {
+        product.setLastUpdatedAt(new Date());
         return productRepository.save(product);
     }
 
