@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@MappedSuperclass //All added as fields in the child entity classes
+@MappedSuperclass //All fields are added to the child entity classes
 public abstract class BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
