@@ -4,6 +4,7 @@ import com.uberkautilya.productcatalogueservice.dtos.ProductDto;
 import com.uberkautilya.productcatalogueservice.models.Product;
 import com.uberkautilya.productcatalogueservice.services.IProductService;
 import com.uberkautilya.productcatalogueservice.utils.MapperUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +14,13 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
     private final IProductService productService;
+    private final IProductService productService2;
 
-    public ProductController(IProductService productService) {
+    public ProductController(
+            @Qualifier(value = "storageProductService") IProductService productService,
+            @Qualifier(value = "fakeStoreProductService") IProductService productService2) {
         this.productService = productService;
+        this.productService2 = productService2;
     }
 
     @PostMapping
