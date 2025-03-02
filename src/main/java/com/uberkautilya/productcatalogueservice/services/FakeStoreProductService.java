@@ -1,10 +1,10 @@
 package com.uberkautilya.productcatalogueservice.services;
 
 import com.uberkautilya.productcatalogueservice.dtos.FakeStoreProductDto;
-import com.uberkautilya.productcatalogueservice.dtos.ProductCategoryDto;
 import com.uberkautilya.productcatalogueservice.models.Product;
 import com.uberkautilya.productcatalogueservice.models.ProductCategory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
+@Primary
 public class FakeStoreProductService implements IProductService {
     private final RestTemplateBuilder restTemplateBuilder;
 
