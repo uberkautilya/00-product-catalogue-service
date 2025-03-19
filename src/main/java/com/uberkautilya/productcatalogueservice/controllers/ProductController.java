@@ -13,20 +13,20 @@ import java.util.List;
 @RestController()
 @RequestMapping("/products")
 public class ProductController {
-    private final IProductService productService;
-    private final IProductService productService2;
+    private final IProductService storageProductService;
+    private final IProductService fakeStoreProductService;
 
     public ProductController(
-            @Qualifier(value = "storageProductService") IProductService productService,
-            @Qualifier(value = "fakeStoreProductService") IProductService productService2) {
-        this.productService = productService;
-        this.productService2 = productService2;
+            @Qualifier(value = "storageProductService") IProductService storageProductService,
+            @Qualifier(value = "fakeStoreProductService") IProductService fakeStoreProductService) {
+        this.storageProductService = storageProductService;
+        this.fakeStoreProductService = fakeStoreProductService;
     }
 
     @PostMapping
     public ProductDto saveProductDetails(@RequestBody ProductDto productDto) {
         Product product = MapperUtils.mapToProduct(productDto);
-        Product savedProduct = productService.createProduct(product);
+        Product savedProduct = storageProductService.createProduct(product);
         return MapperUtils.mapToProductDto(savedProduct);
     }
 
@@ -35,20 +35,20 @@ public class ProductController {
         if (id <= 0) {
             throw new IllegalArgumentException("Invalid product id");
         }
-        Product productById = productService.getProductById(id);
+        Product productById = storageProductService.getProductById(id);
         return MapperUtils.mapToProductDto(productById);
     }
 
     @GetMapping
     public List<ProductDto> getAllProductDetails() {
-        List<Product> productList = productService.getAllProducts();
+        List<Product> productList = storageProductService.getAllProducts();
         return productList.stream().map(MapperUtils::mapToProductDto).toList();
     }
 
     @PutMapping("/{id}")
     public ProductDto replaceProductDetails(@PathVariable Long id, @RequestBody ProductDto productDto) {
         Product requestProduct = MapperUtils.mapToProduct(productDto);
-        Product product = productService.replaceProductDetails(id, requestProduct);
+        Product product = storageProductService.replaceProductDetails(id, requestProduct);
         if (product == null) {
             return null;
         }
@@ -58,7 +58,7 @@ public class ProductController {
     @PatchMapping("/{id}")
     public ProductDto patchProductDetails(@PathVariable Long id, @RequestBody ProductDto productDto) {
         Product requestProduct = MapperUtils.mapToProduct(productDto);
-        Product product = productService.updateProductDetails(id, requestProduct);
+        Product product = storageProductService.updateProductDetails(id, requestProduct);
         if (product == null) {
             return null;
         }
@@ -69,7 +69,7 @@ public class ProductController {
     public ResponseEntity<Object> deleteProductDetails(@PathVariable Long id) {
 
         //For a resource that exists, 204 is returned, while for subsequent attempts 404 is returned
-        Boolean isDeleteSuccessful = productService.deleteProductDetails(id);
+        Boolean isDeleteSuccessful = storageProductService.deleteProductDetails(id);
         if (!isDeleteSuccessful) {
             return ResponseEntity.notFound().build();
         }

@@ -18,8 +18,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.List;
 
-@Service
 @Primary
+@Service(value = "fakeStoreProductService")
 public class FakeStoreProductService implements IProductService {
     private final RestTemplateBuilder restTemplateBuilder;
 

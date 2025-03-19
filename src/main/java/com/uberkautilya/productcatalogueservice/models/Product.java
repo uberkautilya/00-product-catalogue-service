@@ -1,5 +1,6 @@
 package com.uberkautilya.productcatalogueservice.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.uberkautilya.productcatalogueservice.models.enums.State;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity(name = "products")
 public class Product extends BaseModel {
     private String name;
@@ -30,7 +32,7 @@ public class Product extends BaseModel {
     //Not to be exposed in Dto class
     private boolean isPrime;
 
-    public Product(){
+    public Product() {
         setState(State.ACTIVE);
         setCreatedAt(new Date());
         //The same instant this object is created
