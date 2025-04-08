@@ -47,10 +47,11 @@ class ProductControllerTest {
         //1. Arrange
         Long id = -1L;
         //2. Act and 3. Assert
-        assertThrows(
+        final IllegalArgumentException invalidArgumentException = assertThrows(
                 IllegalArgumentException.class,
                 () -> productController.getProductDetails(id), "Invalid product id"
         );
+        assertEquals("Invalid product id", invalidArgumentException.getMessage());
     }
 
     @Test

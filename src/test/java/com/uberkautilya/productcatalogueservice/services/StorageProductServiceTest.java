@@ -2,15 +2,23 @@ package com.uberkautilya.productcatalogueservice.services;
 
 import com.uberkautilya.productcatalogueservice.models.Product;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class) //Needed when using @Mock annotation
 class StorageProductServiceTest {
     // No context set up. Hence, beans wouldn't work. A simple mock object is created here.
-    StorageProductService storageProductService = Mockito.mock(StorageProductService.class);
+    @Mock
+    StorageProductService storageProductService;
+    // Same as StorageProductService storageProductService = Mockito.mock(StorageProductService.class);
+
+    //@InjectMock annotation can be used to create another mock
+    // that needs a StorageProductService object, which would be injected from the mocks defined in this class above.
 
     @Test
     public void testLogic() {
